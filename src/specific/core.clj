@@ -1,12 +1,12 @@
 (ns specific.core
-  (:require [clojure.spec :as spec]
+  (:require [clojure.spec.alpha :as spec]
             [specific
              [gene :as gene]
              [matchers :as matchers]
              [test-double :as test-double]]))
 
 (defn bind-map [bindings]
-  (zipmap (take-nth 2 bindings) 
+  (zipmap (take-nth 2 bindings)
           (map (fn [b] #(spec/gen b)) (take-nth 2 (next bindings)))))
 
 (defn generate [spec & bindings]
@@ -41,4 +41,3 @@
 
 (def calls matchers/calls)
 (def args-conform matchers/args-conform)
-

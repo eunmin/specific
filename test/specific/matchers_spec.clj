@@ -1,5 +1,5 @@
 (ns specific.matchers-spec
-  (:require [clojure.spec :as spec]
+  (:require [clojure.spec.alpha :as spec]
             [specific
              [report-stub :as report-stub]
              [test-double :as test-double]
@@ -22,14 +22,14 @@
                    (stub 2 10)
                    (stub 3 11)
                    (is (args-conform stub 2 ::number))
-                   (assert-report {:type :fail 
+                   (assert-report {:type :fail
                                    :message "Invocation of stub did not conform to (2 :specific.matchers-spec/number)"
                                    :expected '(2 ::number)
                                    :actual [3 11]}))
 
           (testing "ensures the function was invoked"
             (is (args-conform stub 20 10))
-            (assert-report {:type :fail 
+            (assert-report {:type :fail
                             :message "Invocation of stub did not conform to (20 10)"
                             :expected '(20 10)
                             :actual 'zero-invocations})

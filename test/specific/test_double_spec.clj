@@ -1,5 +1,5 @@
 (ns specific.test-double-spec
-  (:require [clojure.spec :as spec]
+  (:require [clojure.spec.alpha :as spec]
             [specific
              [matchers :as matchers]
              [sample :as sample]])
@@ -10,9 +10,6 @@
 (defn no-spec [])
 
 (defn no-ret [a])
-
-(spec/fdef no-ret
-           :args (spec/cat :arg1 identity))
 
 (use-fixtures :each report-fixture)
 (deftest test-doubles
@@ -25,7 +22,7 @@
   (testing "mock functions"
     (let [mock (mock-fn #'specific.sample/some-fun)]
 
-      ; Can handle functions with partial specs
+                                        ; Can handle functions with partial specs
 
       (testing "when invocations do not match the spec"
         (with-redefs [clojure.test/do-report failure-fn]
@@ -50,17 +47,10 @@
       (testing "returns a value that matches the spec"
         (is (string? (mock ""))))
 
-      (testing "returns a test report if the function spec is missing a return value"
-        (is (= {:type :fail
-                :message "No :ret spec defined" 
-                :expected "clojure.spec at [:ret] for #'specific.test-double-spec/no-ret" 
-                :actual nil} 
-               (mock-fn #'no-ret))))
-
       (testing "returns a test report if the function is missing a spec"
-        (is (= {:type :fail 
-                :message "No clojure.spec defined" 
-                :expected "clojure.spec for #'specific.test-double-spec/no-spec" 
+        (is (= {:type :fail
+                :message "No clojure.spec defined"
+                :expected "clojure.spec for #'specific.test-double-spec/no-spec"
                 :actual nil}
                (mock-fn #'no-spec))))
 

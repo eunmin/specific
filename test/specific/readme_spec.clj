@@ -1,9 +1,8 @@
 (ns specific.readme-spec
   (:require [clojure.java.shell]
-            [clojure.test :as ctest] 
-            [clojure.spec.test :as stest]
-            [clojure.spec.gen :as gen]
-            [clojure.spec :as spec]
+            [clojure.test :as ctest]
+            [clojure.spec.test.alpha :as stest]
+            [clojure.spec.alpha :as spec]
             [clojure.string :as string]
             [specific.test-double]
             [specific.sample :as sample])
@@ -38,7 +37,7 @@
     (with-mocks [sample/cowsay]
 
       (testing "matches with exact values"
-        (sample/some-fun "hello" "world") 
+        (sample/some-fun "hello" "world")
         (is (args-conform sample/cowsay "hello, world")))
 
       (testing "can use a custom spec to validate an argument"

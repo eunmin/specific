@@ -1,5 +1,5 @@
 (ns specific.sample
-  (:require [clojure.spec]
+  (:require [clojure.spec.alpha]
             [clojure.java.shell :as shell]
             [clojure.string :as string]))
 
@@ -12,14 +12,14 @@
 (defn some-fun [greeting & names]
   (:out (cowsay (greet greeting names))))
 
-(clojure.spec/def ::exit (clojure.spec/and integer? #(>= % 0) #(< % 256)))
-(clojure.spec/def ::out string?)
-(clojure.spec/def ::fun-greeting string?)
-(clojure.spec/fdef greet :ret ::fun-greeting)
-(clojure.spec/fdef cowsay
-                   :args (clojure.spec/cat :fun-greeting ::fun-greeting)
-                   :ret (clojure.spec/keys :req-un [::out ::exit]))
-(clojure.spec/fdef some-fun
-                   :args (clojure.spec/cat :greeting ::fun-greeting
-                                           :names (clojure.spec/* string?))
-                   :ret string?)
+(clojure.spec.alpha/def ::exit (clojure.spec.alpha/and integer? #(>= % 0) #(< % 256)))
+(clojure.spec.alpha/def ::out string?)
+(clojure.spec.alpha/def ::fun-greeting string?)
+(clojure.spec.alpha/fdef greet :ret ::fun-greeting)
+(clojure.spec.alpha/fdef cowsay
+                         :args (clojure.spec.alpha/cat :fun-greeting ::fun-greeting)
+                         :ret (clojure.spec.alpha/keys :req-un [::out ::exit]))
+(clojure.spec.alpha/fdef some-fun
+                         :args (clojure.spec.alpha/cat :greeting ::fun-greeting
+                                                       :names (clojure.spec.alpha/* string?))
+                         :ret string?)
